@@ -6,6 +6,7 @@ buildscript {
         okhttpVersion = '5.0.0-alpha.2'
         glideVersion = '4.14.2'
         hiltVersion = '2.44'
+        roomVersion = '2.5.0'
     }
 
     repositories {

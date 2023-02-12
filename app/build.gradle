@@ -30,7 +30,7 @@ android {
     flavorDimensions "Environment"
     productFlavors {
         development {
-            buildConfigField 'String', 'API_KEY', '"c02ca0044c4f41bf9c413b513bf41fee"'
+            buildConfigField 'String', 'API_KEY', '"d4bee1442fda04e0b421566f1a54e4ae"'
             dimension "Environment"
         }
     }
@@ -63,6 +63,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-paging:$roomVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"

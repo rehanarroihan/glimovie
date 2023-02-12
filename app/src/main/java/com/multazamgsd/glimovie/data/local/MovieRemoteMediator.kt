@@ -9,6 +9,7 @@ import com.multazamgsd.glimovie.data.local.db.GliMovieDatabase
 import com.multazamgsd.glimovie.data.local.entity.KeyEntity
 import com.multazamgsd.glimovie.data.local.entity.MovieEntity
 import com.multazamgsd.glimovie.data.remote.network.MovieService
+import com.multazamgsd.glimovie.data.remote.response.MovieResponse
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -28,17 +29,16 @@ class MovieRemoteMediator @Inject constructor(
             }
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
-                val prevKey =
-                    remoteKeys?.prevKey ?: return MediatorResult.Success(remoteKeys != null)
+                val prevKey = remoteKeys?.prevKey ?: return MediatorResult.Success(remoteKeys != null)
                 prevKey
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-                val nextKey =
-                    remoteKeys?.nextKey ?: return MediatorResult.Success(remoteKeys != null)
+                val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(remoteKeys != null)
                 nextKey
             }
         }
+
         return try {
             val responseData = apiService.getMovies(page).body()?.results ?: arrayListOf()
             val endOfPaginationReached = responseData.isEmpty()
@@ -49,7 +49,7 @@ class MovieRemoteMediator @Inject constructor(
                     database.movieDao().delete()
                 }
                 val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
+                val nextKey = if (endOfPaginationReached) null else page+1
                 val keys = responseData.map { movieResponse ->
                     KeyEntity(
                         id = movieResponse.id.toString(),

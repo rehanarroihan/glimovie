@@ -21,8 +21,8 @@ class NetworkModules {
         const val AUTH_HEADER = "Authorization"
     }
 
-    @Provides
     @Singleton
+    @Provides
     fun providesHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(FlipperOkhttpInterceptor(App.networkFlipperPlugin))
@@ -36,8 +36,8 @@ class NetworkModules {
             }
             .build()
 
-    @Provides
     @Singleton
+    @Provides
     fun providesMovieService(okHttpClient: OkHttpClient): MovieService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())

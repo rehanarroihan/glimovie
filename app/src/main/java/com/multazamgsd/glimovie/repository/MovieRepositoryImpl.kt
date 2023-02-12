@@ -21,7 +21,12 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovies(): Flow<ResultState<Pager<Int, MovieEntity>>> {
         return fetchPaging {
             Pager(
-                config = PagingConfig(pageSize = 5),
+                config = PagingConfig(
+                    pageSize = 5,
+                    enablePlaceholders = false,
+                    prefetchDistance = 2,
+                    initialLoadSize = 20
+                ),
                 remoteMediator = MovieRemoteMediator(apiService = service, database = database),
                 pagingSourceFactory = {
                     database.movieDao().getMovies()

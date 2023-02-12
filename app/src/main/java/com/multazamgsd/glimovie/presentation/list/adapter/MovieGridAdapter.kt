@@ -1,4 +1,4 @@
-package com.multazamgsd.glimovie.presentation
+package com.multazamgsd.glimovie.presentation.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,15 +9,17 @@ import com.bumptech.glide.Glide
 import com.multazamgsd.glimovie.databinding.ItemMoviePosterBinding
 import com.multazamgsd.glimovie.models.Movie
 
-class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterViewHolder>(MovieDiffCallBack) {
+class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterViewHolder>(diffCallback) {
 
-    object MovieDiffCallBack : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.id == newItem.id
-        }
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem == newItem
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.title == newItem.title
+            }
         }
     }
 
@@ -37,7 +39,7 @@ class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterVi
         fun bind(path: String?) {
             path?.let {
                 Glide.with(binding.root)
-                    .load(it)
+                    .load("https://image.tmdb.org/t/p/w500/$it")
                     .into(binding.ivMoviePoster)
             }
         }

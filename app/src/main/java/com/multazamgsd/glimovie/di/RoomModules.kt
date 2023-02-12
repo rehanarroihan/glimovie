@@ -14,18 +14,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class RoomModules {
 
-    @Provides
     @Singleton
+    @Provides
     fun providesMovieDatabase(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, GliMovieDatabase::class.java, "glimovie_db")
             .fallbackToDestructiveMigration()
             .build()
 
-    @Provides
     @Singleton
+    @Provides
     fun providesMoviewDao(database: GliMovieDatabase) = database.movieDao()
 
-    @Provides
     @Singleton
+    @Provides
     fun providesRemoteKeyDao(database: GliMovieDatabase) = database.remoteKeyDao()
 }

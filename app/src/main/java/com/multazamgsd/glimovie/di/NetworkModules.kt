@@ -1,5 +1,7 @@
 package com.multazamgsd.glimovie.di
 
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.multazamgsd.glimovie.App
 import com.multazamgsd.glimovie.BuildConfig
 import com.multazamgsd.glimovie.data.remote.network.MovieService
 import dagger.Module
@@ -23,6 +25,7 @@ class NetworkModules {
     @Singleton
     fun providesHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
+            .addNetworkInterceptor(FlipperOkhttpInterceptor(App.networkFlipperPlugin))
             .addInterceptor { chain ->
                 chain.proceed(
                     chain.request()

@@ -1,6 +1,8 @@
 package com.multazamgsd.glimovie.data.remote.response
 
 import com.google.gson.annotations.SerializedName
+import com.multazamgsd.glimovie.data.local.entity.MovieEntity
+import com.multazamgsd.glimovie.models.Movie
 
 data class MovieResponse(
     @SerializedName("page") var page: Int? = null,
@@ -23,5 +25,18 @@ data class MovieResponse(
         @SerializedName("video") var video: Boolean? = null,
         @SerializedName("vote_average") var voteAverage: Double? = null,
         @SerializedName("vote_count") var voteCount: Int? = null
-    )
+    ) {
+        fun toEntity() = MovieEntity(
+            id = id!!,
+            isAdultOnly = adult ?: false,
+            popularity = popularity!!,
+            voteAverage = voteAverage!!,
+            voteCount = voteCount!!,
+            image = posterPath!!,
+            title = title!!,
+            overview = overview!!,
+            releaseDate = releaseDate!!,
+            originalLanguage = originalLanguage!!
+        )
+    }
 }

@@ -37,6 +37,11 @@ class MovieDetailActivity : AppCompatActivity() {
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+
         val movie = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_MOVIE, Movie::class.java)
         } else {
@@ -59,14 +64,19 @@ class MovieDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.trailerData.collect { result ->
                 result.onLoading {
-
+                    binding.layoutMain.visibility = View.GONE
+                    binding.layoutLoading.visibility = View.VISIBLE
                 }
 
                 result.onFailure {
-
+                    if (it.contains("Unable resolve host")) {
+                        // TODO : handle no internet connection
+                    }
                 }
 
                 result.onSuccess {
+                    binding.layoutMain.visibility = View.VISIBLE
+                    binding.layoutLoading.visibility = View.GONE
                     showTrailerVideo(it!!.youtubeVideoId)
                 }
             }
@@ -75,14 +85,18 @@ class MovieDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.userReviews.collect { result ->
                 result.onLoading {
-
+                    // TODO : show loading animation on retrieving user review data
                 }
 
                 result.onFailure {
-
+                    // TODO : handle review retrieving data error
                 }
 
                 result.onSuccess {
+                    if (it?.isEmpty() == true) {
+                        // TODO : show "no review yet" empty state to view
+                    }
+
                     adapter.submitList(it)
                 }
             }
@@ -118,5 +132,10 @@ class MovieDetailActivity : AppCompatActivity() {
         }
         val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
         binding.playerYt.initialize(listener, options)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

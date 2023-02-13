@@ -81,7 +81,6 @@ class MovieRepositoryImpl @Inject constructor(
                         official = fromYoutube.first().official ?: false,
                     )
                 }
-
                 emit(ResultState.Success(finalResult))
             } else {
                 emit(ResultState.Error(dataResult.errorBody().toString()))

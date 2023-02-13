@@ -1,11 +1,15 @@
 package com.multazamgsd.glimovie.presentation.detail
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.multazamgsd.glimovie.databinding.ItemUserReviewBinding
+import com.multazamgsd.glimovie.helpers.GeneralHelpers.toTimeFormat
 import com.multazamgsd.glimovie.models.UserReview
 
 class UserReviewListAdapter : ListAdapter<UserReview, UserReviewListAdapter.ItemViewHolder>(diffCallback) {
@@ -24,9 +28,14 @@ class UserReviewListAdapter : ListAdapter<UserReview, UserReviewListAdapter.Item
 
     inner class ItemViewHolder(private val binding: ItemUserReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UserReview) {
+            Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/w200${item.authorAvatar}")
+                .placeholder(ColorDrawable(Color.GRAY))
+                .into(binding.imageAvatar)
+
             binding.textReview.text = item.review
-            binding.textCreated.text = item.createdAt
-            binding.textUsername.text = item.authorName
+            binding.textCreated.text = item.createdAt.toTimeFormat()
+            binding.textUsername.text = item.authorName.ifEmpty { "Reviewer" }
             binding.textRating.text = item.authorRating.toString()
         }
     }

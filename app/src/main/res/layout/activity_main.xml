@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ECEFF1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.list.MovieActivity">
@@ -15,7 +16,7 @@
         android:paddingTop="12dp"
         android:paddingEnd="0dp"
         android:paddingBottom="6dp"
-        android:text="Trends"
+        android:text="Top Rated Movies"
         android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -19,6 +19,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.list.MovieActivity"
+            android:theme="@style/Theme.GliMovie.Default"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

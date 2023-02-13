@@ -43,7 +43,7 @@ class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterVi
             movie?.let { mv ->
                 Glide.with(binding.root)
                     .load("https://image.tmdb.org/t/p/w500/${mv.image}")
-                    .into(binding.ivMoviePoster)
+                    .into(binding.imagePoster)
 
                 binding.root.setOnClickListener {
                     onItemClick?.invoke(mv)

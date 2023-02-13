@@ -1,6 +1,7 @@
 package com.multazamgsd.glimovie.presentation.list.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,8 @@ import com.multazamgsd.glimovie.databinding.ItemMoviePosterBinding
 import com.multazamgsd.glimovie.models.Movie
 
 class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterViewHolder>(diffCallback) {
+
+    var onItemClick: ((Movie) -> Unit)? = null
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
@@ -29,18 +32,22 @@ class MovieGridAdapter : PagingDataAdapter<Movie, MovieGridAdapter.MoviePosterVi
     }
 
     override fun onBindViewHolder(holder: MoviePosterViewHolder, position: Int) {
-        holder.bind(getItem(position)?.image)
+        holder.bind(getItem(position))
     }
 
     inner class MoviePosterViewHolder(
         private val binding: ItemMoviePosterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(path: String?) {
-            path?.let {
+        fun bind(movie: Movie?) {
+            movie?.let { mv ->
                 Glide.with(binding.root)
-                    .load("https://image.tmdb.org/t/p/w500/$it")
+                    .load("https://image.tmdb.org/t/p/w500/${mv.image}")
                     .into(binding.ivMoviePoster)
+
+                binding.root.setOnClickListener {
+                    onItemClick?.invoke(mv)
+                }
             }
         }
     }

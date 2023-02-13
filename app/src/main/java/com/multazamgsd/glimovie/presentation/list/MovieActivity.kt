@@ -1,5 +1,6 @@
 package com.multazamgsd.glimovie.presentation.list
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.cachedIn
 import com.multazamgsd.glimovie.databinding.ActivityMainBinding
+import com.multazamgsd.glimovie.presentation.detail.MovieDetailActivity
 import com.multazamgsd.glimovie.presentation.list.adapter.MovieGridAdapter
 import com.multazamgsd.glimovie.presentation.list.adapter.MovieLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,11 @@ class MovieActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rv.adapter = adapter
+        adapter.onItemClick = {
+            val intent = Intent(this, MovieDetailActivity::class.java)
+            intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, it)
+            startActivity(intent)
+        }
         adapter.addLoadStateListener { loadState -> renderUi(loadState) }
 
         lifecycleScope.launch {
